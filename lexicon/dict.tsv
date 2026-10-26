@@ -1,6 +1,21 @@
 # 青简基础词库，由 qingjian-dict-convert lexicon 生成。词	音节	词频
 # 来源：通用规范汉字表（8105 字）；生僻字（Unihan、CNS 全字库读音）；现代汉语常用词表（liuxilu 校对版）；THUOCL 领域词（MIT，清华大学自然语言处理实验室）；
 # 读音：Unihan（Unicode License）+ LLM 标注多音字词；词频：青简自己的语料统计（中文维基 CC BY-SA 4.0、LCCC MIT）。
+A站	a zhan	1500
+A股	a gu	5000
+B站	b zhan	40000
+B股	b gu	300
+C盘	c pan	8000
+D盘	d pan	4000
+E盘	e pan	2000
+F盘	f pan	300
+G盘	g pan	300
+H股	h gu	300
+T台	t tai	1500
+T恤	t xu	7000
+U盘	you pan	9000
+X光	x guang	800
+X射线	x she xian	2000
 㐀	qiu	0
 㐁	tian	0
 㐄	kua	0
@@ -22790,7 +22805,7 @@
 匹敌	pi3 di2	234
 匹配	pi3 pei4	2430
 匹马	pi3 ma3	765
-区	ou	8544
+区	ou	5016
 区	qu	170872
 区位	qu1 wei4	73
 区公安分局	qu gong an fen ju	51
@@ -23890,7 +23905,7 @@
 占领	zhan4 ling3	8604
 占领军	zhan4 ling3 jun1	102
 卡	ka	98038
-卡	qia	4902
+卡	qia	973
 卡丘	ka qiu	89
 卡乡	ka xiang	100
 卡什	ka shi	504
@@ -28086,7 +28101,7 @@
 咋舌	ze2 she2	8
 咋这么	za3 zhe4 me5	4925
 和	he	904283
-和	hu	45214
+和	hu	5685
 和	huo	3612
 和丰	he2 feng1	129
 和乐	he le	339
@@ -28575,7 +28590,7 @@
 哩哔哩	li bi li	1
 哩哩啦啦	li5 li5 la1 la1	13
 哪	na	98852
-哪	nai	4943
+哪	nai	3087
 哪	ne	4943
 哪	nei	4943
 哪个	na3 ge5	46150
@@ -50664,7 +50679,7 @@
 担架	dan1 jia4	91
 担纲	dan1 gang1	450
 担负	dan1 fu4	432
-拆	ca	398
+拆	ca	360
 拆	chai	7963
 拆借	chai1 jie4	29
 拆兑	chai dui	3
@@ -57735,7 +57750,7 @@
 曼陀	man4 tuo2	215
 曽	ceng	0
 曾	ceng	83252
-曾	zeng	4163
+曾	zeng	1874
 曾于	ceng2 yu2	5450
 曾任	ceng2 ren4	17277
 曾任寿	ceng ren shou	2
@@ -79047,7 +79062,7 @@
 秋风扫落叶	qiu1 feng1 sao3 luo4 ye4	30
 秋高气爽	qiu1 gao1 qi4 shuang3	1
 秌	qiu	0
-种	chong	3612
+种	chong	3591
 种	zhong	72240
 种事	zhong shi	3366
 种仁	zhong3 ren2	2
@@ -86461,7 +86476,7 @@
 胓	ping	0
 胔	zi	0
 胕	fu	0
-胖	pan	5487
+胖	pan	3804
 胖	pang	109744
 胖乎乎	pang4 hu1 hu1	279
 胖了	pang4 le5	25372
@@ -92477,7 +92492,7 @@
 衊	mie	0
 衋	xi	0
 行	hang	8344
-行	heng	5633
+行	heng	5460
 行	xing	112650
 行不行	xing2 bu4 xing2	2329
 行不通	xing2 bu4 tong1	166
@@ -99202,7 +99217,7 @@
 轩辕	xuan1 yuan2	269
 轪	dai	10
 轫	ren	82
-转	zhuai	2243
+转	zhuai	679
 转	zhuan	44859
 转世	zhuan3 shi4	971
 转业	zhuan3 ye4	298
@@ -102048,9 +102063,9 @@
 邢台	xing2 tai2	394
 邢台市	xing2 tai2 shi4	311
 那	na	627741
-那	nai	31387
+那	nai	3087
 那	ne	31387
-那	nei	31387
+那	nei	28384
 那不是	na bu shi	6462
 那个	na4 ge5	156009
 那个人	na4 ge5 ren2	7520
