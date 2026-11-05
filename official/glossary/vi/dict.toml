@@ -1,0 +1,12 @@
+id = "glossary-vi"
+name = "青简释义表·越南语"
+kind = "glossary"
+language = "vi"
+version = "1.0.0"
+description = "中文词的越南语释义，显示在候选词右侧。"
+authors = ["Joelee"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "GPL-3.0-or-later"
+machine_generated = "LLM 生成（gpt-5.5）"
+bundled = false
+files = ["glossary.tsv"]

@@ -1,0 +1,12 @@
+id = "glossary-de"
+name = "青简释义表·德语"
+kind = "glossary"
+language = "de"
+version = "1.0.0"
+description = "中文词的德语释义，显示在候选词右侧。"
+authors = ["Haoyu Xi"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "GPL-3.0-or-later"
+machine_generated = "LLM 生成（DeepSeek），名词冠词对照 Wiktionary 校验"
+bundled = false
+files = ["glossary.tsv"]

@@ -1,0 +1,12 @@
+id = "glossary-en"
+name = "青简释义表·英语"
+kind = "glossary"
+language = "en"
+version = "1.0.0"
+description = "中文词的英语释义，显示在候选词右侧。"
+authors = ["青简团队"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "CC-BY-SA-4.0"
+machine_generated = "LLM 生成（DeepSeek）"
+bundled = true
+files = ["glossary.tsv"]

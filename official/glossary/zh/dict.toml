@@ -1,0 +1,12 @@
+id = "glossary-zh"
+name = "青简释义表·英→中"
+kind = "glossary"
+language = "zh"
+version = "1.0.0"
+description = "英文词的中文释义，显示在候选词右侧。"
+authors = ["青简团队"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "CC-BY-SA-4.0"
+machine_generated = "LLM 生成，约 170 条人工改写"
+bundled = false
+files = ["glossary.tsv"]

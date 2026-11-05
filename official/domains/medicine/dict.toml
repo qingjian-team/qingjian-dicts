@@ -1,0 +1,11 @@
+id = "domain-medicine"
+name = "青简领域词库·医学"
+kind = "extra"
+version = "1.0.0"
+description = "从 THUOCL 医学词表拆出、基础词库里没有的部分，读音与词频由青简补。"
+authors = ["青简团队", "清华大学自然语言处理实验室（THUOCL）"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "MIT AND CC-BY-SA-4.0"
+machine_generated = "部分：多音字词读音由 LLM 标注"
+bundled = false
+files = ["words.tsv"]

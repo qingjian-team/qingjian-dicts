@@ -1,0 +1,12 @@
+id = "base"
+name = "青简基础词库"
+kind = "base"
+version = "1.0.0"
+description = "随输入法安装的基础词库：规范汉字、现代汉语常用词、语料高频领域词、短语、品牌词、中英混杂词与通用扩展词库里机器初筛较好的冻结子集（cleaned.tsv），带语料词频。"
+authors = ["青简团队", "toolsfox", "luo jiyin", "YIMING LI"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+# 外部贡献者的条目是按 GPL 收进来的，单独标出；其余青简整理部分 CC BY-SA 4.0
+license = "MIT AND Unicode-3.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
+machine_generated = "部分：多音字词读音由 LLM 标注并对照 Unihan 校验"
+bundled = true
+files = ["dict.tsv", "cleaned.tsv", "phrases.tsv", "brand.tsv", "mixed_words.tsv", "mined_words.tsv", "domain_words.tsv"]
