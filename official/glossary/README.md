@@ -13,13 +13,13 @@
 由 `tools/gloss-gen` 用 LLM 离线批量生成（英语 / 日语用 DeepSeek，越南语用 gpt-5.5），不含任何第三方词典内容。`generate` 缺省只生成英语与日语，越南语要加 `--languages vi`。
 
 - `data/generated/gloss-llm.jsonl`：模型原始输出，一行一个词（词性、英文译词、日文译词与假名、越南文译词），可续跑：
-  `cargo run --release -p qingjian-gloss-gen -- generate --words assets/lexicon/dict.tsv --min-count 1 --max-chars 8`
+  `cargo run --release -p qingjian-gloss-gen -- generate --words ../qingjian-dicts/official/base/words.tsv --min-count 1 --max-chars 8`
 - `glossary-en.tsv` / `glossary-ja.tsv` / `glossary-vi.tsv`：输入法加载的表，由 `... export --out-dir assets/glossary` 导出。
 
 只补越南语时用 `--languages vi`，输出 JSONL 里只有 `vi` 字段，避免重新生成英语 / 日语：
 
 ```bash
-cargo run --release -p qingjian-gloss-gen -- generate --languages vi --words assets/lexicon/dict.tsv --min-count 1 --max-chars 8 --out data/generated/gloss-vi-llm.jsonl
+cargo run --release -p qingjian-gloss-gen -- generate --languages vi --words ../qingjian-dicts/official/base/words.tsv --min-count 1 --max-chars 8 --out data/generated/gloss-vi-llm.jsonl
 cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-vi-llm.jsonl --out-dir assets/glossary
 ```
 
@@ -32,7 +32,7 @@ cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss
 多语言管线：`generate` 加 `--languages de`，JSONL 里只有 `de` 字段，不必重跑英语 / 日语：
 
 ```bash
-cargo run --release -p qingjian-gloss-gen -- generate --languages de --words assets/lexicon/dict.tsv --min-count 1 --max-chars 8 --model deepseek-flash --out data/generated/gloss-de-llm.jsonl
+cargo run --release -p qingjian-gloss-gen -- generate --languages de --words ../qingjian-dicts/official/base/words.tsv --min-count 1 --max-chars 8 --model deepseek-flash --out data/generated/gloss-de-llm.jsonl
 cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-de-llm.jsonl --out-dir assets/glossary
 ```
 
