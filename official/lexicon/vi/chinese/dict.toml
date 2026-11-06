@@ -1,0 +1,13 @@
+id = "vietnamese-chinese"
+name = "越南语→中文对照"
+kind = "glossary"
+language = "vi"
+version = "1.0.0"
+description = "越南语输入时显示在候选旁边的中文，每个词最多两个。"
+author = { name = "Joelee", url = "https://github.com/youaodu" }
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "GPL-3.0-or-later"
+machine_generated = "由越南语释义表（LLM 生成）反转派生，未经人工审核"
+bundled = true
+# 由 tools/vietnamese.py 从 official/glossary/vi/glossary.tsv 生成，释义表改了就重跑
+files = ["chinese.tsv"]

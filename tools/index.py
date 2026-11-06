@@ -61,7 +61,7 @@ def main(args: list[str]) -> int:
             "version": released["version"],
             "tag": released["tag"],
             "bytes": manifest["archive"]["bytes"] if manifest else previous["bytes"],
-            **({"qj_format": released["qj_format"]} if "qj_format" in released else {}),
+            "qj_format": released["qj_format"],
             "license": meta["license"],
             "description": meta["description"],
             "author": meta["author"],

@@ -6,7 +6,7 @@
 
 `.qj` 由输入法仓库的 dict-convert 生成（缺省 ../ime/target/release/qingjian-dict-convert，
 先在 ime 里 `cargo build --release -p qingjian-dict-convert`），元数据取 dict.toml：名字、许可、作者、主页、版本。
-数据包：词库与释义表是 `<id>.qjz`（压缩的 .qj）；wordlist 输入法直接读 TSV，打成 `<id>.tar.gz`（files 加 glossary 原样放进去）。
+数据包一律是 `<id>.qjz`（压缩的 .qj）。
 manifest.json 与模型仓库的同一个格式（archive + parts），输入法的下载代码两边共用；词库压完都不到 95MB，只有一块。
 平时不用手动跑：合进 main 后发版 workflow 调 tools/release.py 打包发版。
 """
@@ -19,7 +19,6 @@ import json
 import os
 import subprocess
 import sys
-import tarfile
 import tempfile
 import tomllib
 from pathlib import Path
@@ -62,21 +61,13 @@ def build_qj(directory: Path, meta: dict, stage: Path) -> Path:
     elif kind == "glossary":
         language = meta["language"]
         args, out = ["pack", "glossary", "--language", language, "--input", inputs[0]], stage / f"glossary-{language}.qj"
+    elif kind == "wordlist":
+        out = stage / f"{meta['id']}.qj"
+        args = ["pack", "wordlist", "--input", inputs[0], "--output", str(out)]
     else:
         sys.exit(f"{directory}: kind = {kind} 不发 Release")
     subprocess.run([str(CONVERT), "--out-dir", str(stage), *args, *common], check=True)
     return out
-
-
-def build_tarball(directory: Path, meta: dict, target: Path) -> None:
-    """wordlist 的数据包：固定时间戳与属主，同一份数据每次打出同样的字节。"""
-    names = [*meta["files"], *([meta["glossary"]] if meta.get("glossary") else [])]
-    with gzip.GzipFile(target, "wb", mtime=0) as compressed, tarfile.open(fileobj=compressed, mode="w") as tar:
-        for name in names:
-            info = tar.gettarinfo(str(directory / name), arcname=name)
-            info.mtime, info.uid, info.gid, info.uname, info.gname, info.mode = 0, 0, 0, "", "", 0o644
-            with (directory / name).open("rb") as file:
-                tar.addfile(info, file)
 
 
 def pack(directory: Path) -> Path:
@@ -84,20 +75,15 @@ def pack(directory: Path) -> Path:
     tag = f"{meta['id']}-v{meta['version']}"
     out = DIST / tag
     out.mkdir(parents=True, exist_ok=True)
-    qj_format = None
-    if meta["kind"] == "wordlist":
-        target = out / f"{meta['id']}.tar.gz"
-        build_tarball(directory, meta, target)
-    else:
-        with tempfile.TemporaryDirectory() as stage_name:
-            stage = Path(stage_name)
-            qj = build_qj(directory, meta, stage)
-            subprocess.run([str(CONVERT), "--out-dir", str(stage), "qjz", str(qj)], check=True)
-            target = out / f"{meta['id']}.qjz"
-            qj.with_suffix(".qjz").replace(target)
-        with gzip.open(target, "rb") as file:
-            header = file.read(12)
-        qj_format = int.from_bytes(header[8:10], "little")
+    with tempfile.TemporaryDirectory() as stage_name:
+        stage = Path(stage_name)
+        qj = build_qj(directory, meta, stage)
+        subprocess.run([str(CONVERT), "--out-dir", str(stage), "qjz", str(qj)], check=True)
+        target = out / f"{meta['id']}.qjz"
+        qj.with_suffix(".qjz").replace(target)
+    with gzip.open(target, "rb") as file:
+        header = file.read(12)
+    qj_format = int.from_bytes(header[8:10], "little")
     if target.stat().st_size > PART_LIMIT:
         sys.exit(f"{directory}: 压完 {target.stat().st_size} 字节，超过一块的上限，要先补上切块")
     piece = {"bytes": target.stat().st_size, "sha256": sha256(target)}
@@ -105,7 +91,7 @@ def pack(directory: Path) -> Path:
         "dict": meta["id"],
         "version": meta["version"],
         "tag": tag,
-        **({"qj_format": qj_format} if qj_format is not None else {}),
+        "qj_format": qj_format,
         "archive": piece,
         "parts": [{"name": target.name, **piece}],
     }

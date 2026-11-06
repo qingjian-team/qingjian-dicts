@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""从越南语释义表派生越南语输入用的两张表，写进 official/lexicon/vi/：
+"""从越南语释义表派生越南语输入用的两张表，写进 official/lexicon/vi/ 下的两本：
 
     python3 tools/vietnamese.py
 
-- words.tsv：越南语词表（`词\t词\t次数`），越南语输入法按前缀补全，次数是这个词在释义表里出现的次数；
-- chinese.tsv：越南语 → 中文对照（`词\t中文…`，每词最多两个，按出现次数排），显示在越南语候选旁边。
+- words/words.tsv：越南语词表（`词\t词\t次数`），越南语输入法按前缀补全，次数是这个词在释义表里出现的次数；
+- chinese/chinese.tsv：越南语 → 中文对照（`词\t中文…`，每词最多两个，按出现次数排），显示在越南语候选旁边。
 
-释义表 official/glossary/vi/glossary.tsv 改了就重跑，两张表跟着提交，lexicon/vi 的 version 升一号。
+释义表 official/glossary/vi/glossary.tsv 改了就重跑，两张表跟着提交，变了的那本 version 升一号。
 """
 
 from __future__ import annotations
@@ -35,11 +35,11 @@ def main() -> int:
                     words[text] += 1
                     chinese.setdefault(text, Counter())[source_word] += 1
 
-    with (OUT / "words.tsv").open("w", encoding="utf-8", newline="\n") as output:
+    with (OUT / "words/words.tsv").open("w", encoding="utf-8", newline="\n") as output:
         for word, count in sorted(words.items()):
             output.write(f"{word}\t{word}\t{count}\n")
 
-    with (OUT / "chinese.tsv").open("w", encoding="utf-8", newline="\n") as output:
+    with (OUT / "chinese/chinese.tsv").open("w", encoding="utf-8", newline="\n") as output:
         for word, senses in sorted(chinese.items()):
             ranked = sorted(senses.items(), key=lambda item: (-item[1], item[0]))[:2]
             output.write(word + "\t" + "\t".join(text for text, _ in ranked) + "\n")

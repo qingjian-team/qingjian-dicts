@@ -3,13 +3,11 @@ name = "越南语词表"
 kind = "wordlist"
 language = "vi"
 version = "1.0.0"
-description = "越南语输入法按前缀补全用的越南语词，约 8.9 万条，附越南语到中文的对照。"
+description = "越南语输入法按前缀补全用的越南语词，约 8.9 万条。"
 author = { name = "Joelee", url = "https://github.com/youaodu" }
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "GPL-3.0-or-later"
 machine_generated = "由越南语释义表（LLM 生成）反转派生，未经人工审核"
 bundled = true
-# 两张表都由 tools/vietnamese.py 从 official/glossary/vi/glossary.tsv 生成，释义表改了就重跑
+# 由 tools/vietnamese.py 从 official/glossary/vi/glossary.tsv 生成，释义表改了就重跑
 files = ["words.tsv"]
-# 越南语 → 中文对照（每词最多两个中文），显示在越南语候选旁边
-glossary = "chinese.tsv"

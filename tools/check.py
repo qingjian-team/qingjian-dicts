@@ -99,8 +99,8 @@ def check_meta(path: Path, meta: dict, section: str) -> list[str]:
     rel = path.parent.relative_to(ROOT).parts
     if rel[:2] in (("official", "lexicon"), ("official", "glossary")) and len(rel) > 2 and rel[2] != meta["language"]:
         errors.append(f"放在 {'/'.join(rel[:3])} 下，language 却是 {meta['language']!r}")
-    if meta.get("glossary") and meta["kind"] != "wordlist":
-        errors.append("glossary（附带的中文对照）只有 wordlist 写")
+    if "glossary" in meta:
+        errors.append("glossary 字段已去掉：附带的对照表单独做一本 kind = \"glossary\" 的词库")
     if not VERSION.match(str(meta["version"])):
         errors.append(f"version {meta['version']!r} 要写成 主.次.修订")
     if "authors" in meta:
@@ -201,7 +201,7 @@ def check_versions(since: str) -> int:
         if meta["id"] not in old:
             continue
         directory = path.parent.relative_to(ROOT).as_posix()
-        packed = ["dict.toml", *(meta.get("files") or []), *([meta["glossary"]] if meta.get("glossary") else [])]
+        packed = ["dict.toml", *(meta.get("files") or [])]
         touched = [name for name in packed if f"{directory}/{name}" in changed]
         if touched and meta["version"] == old[meta["id"]]:
             print(f"{directory}: 改了 {'、'.join(touched)}，version 还是 {meta['version']}，要升一号")
@@ -245,12 +245,6 @@ def main(args: list[str]) -> int:
                 errors.append(f"files 里的 {name} 不存在")
             else:
                 errors += check_text(file, meta.get("kind", ""), meta.get("format", "tsv"))
-        if meta.get("glossary"):
-            file = path.parent / meta["glossary"]
-            if not file.is_file():
-                errors.append(f"glossary 的 {meta['glossary']} 不存在")
-            else:
-                errors += check_text(file, "glossary", "tsv")
         for error in errors:
             print(f"{rel.parent}: {error}")
         failed += bool(errors)
