@@ -1,9 +1,10 @@
 id = "english"
-name = "青简英文词表"
+name = "英文词表"
 kind = "english"
 version = "1.0.0"
 description = "中英混输与英文模式用的英文词表，词频取 wordfreq。"
-authors = ["青简团队", "YIMING LI"]
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["YIMING LI"]
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
 machine_generated = false

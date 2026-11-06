@@ -8,28 +8,30 @@
 每本词库目录一份：
 
 ```toml
-id = "domain-medicine"                  # 小写字母、数字、-；全仓库唯一，也是 Release 标签的前缀
+id = "domain-medicine"        # 小写字母、数字、-；全仓库唯一，也是 Release 标签的前缀
 name = "医学词库"
-kind = "base"                 # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；english：英文词表
-language = "ja"               # 只有释义表写：学习语言的 ISO 639-1 代码
+kind = "extra"                # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；english：英文词表
+# language = "ja"             # 只有释义表写：学习语言的 ISO 639-1 代码
 version = "1.0.0"             # 主.次.修订；数据有变就升，发 Release 时用
-description = "一句话说清收了什么、适合谁"
-authors = ["上游作者"]         # 数据的作者，不是提交 PR 的人
-maintainers = ["github-login"] # 第三方词库：负责跟进上游更新的人
-homepage = "https://github.com/…"
-license = "GPL-3.0-only"      # SPDX 表达式，几份来源用 AND 连起来
-machine_generated = false     # 或一句话说明哪部分是机器生成的（LLM 标音、机器翻译……）
+description = "疾病、症状、药物与检查名称，约 1.6 万条。"  # 一句话说清收了什么、适合谁
+author = { name = "青简", url = "https://qingjian.app" }  # 做这本词库的人或团队，只写一个；设置页显示它，点名字打开 url（可省，只收 https 域名）
+credits = ["清华大学自然语言处理实验室（THUOCL）"]  # 许可要求署名的上游与贡献者，写进 .qj 元数据，设置页不列；没有可省
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "MIT AND CC-BY-SA-4.0"  # SPDX 表达式，几份来源用 AND 连起来
+machine_generated = "部分：多音字词读音由 LLM 标注"  # 或 false
 format = "tsv"                # tsv（缺省）/ rime（.dict.yaml）/ words（一行一个词）
+bundled = false               # 随输入法安装的写 true（只有官方的基础词库、英文词表、英语释义表）；第三方不能随包
 
-# 下面两种二选一
-files = ["words.tsv"]         # 数据放在本目录
+# 数据放在本目录，或者用下面的 [upstream]，二选一
+files = ["words.tsv"]
 
-[upstream]                    # 或者指向上游仓库的固定提交，发版时现取现转
-url = "https://github.com/…"
-commit = "<40 位提交号>"
-files = ["cn_dicts/base.dict.yaml"]
-sha256 = { "cn_dicts/base.dict.yaml" = "<64 位>" }
-
+# 第三方词库另外要写：
+# maintainers = ["github-login"]   # 负责跟进上游更新的人
+# [upstream]                       # 指向上游仓库的固定提交，发版时现取现转（这时不写 files）
+# url = "https://github.com/…"
+# commit = "<40 位提交号>"
+# files = ["cn_dicts/base.dict.yaml"]
+# sha256 = { "cn_dicts/base.dict.yaml" = "<64 位>" }
 ```
 
 格式：

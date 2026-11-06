@@ -9,9 +9,11 @@
 
 from __future__ import annotations
 
+import ipaddress
 import re
 import sys
 import tomllib
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -50,9 +52,35 @@ def license_ids(expression: str) -> list[str]:
     return [t for t in tokens if t and t not in {"AND", "OR", "WITH"}]
 
 
+def check_author(author) -> list[str]:
+    """author 写 { name = "…", url = "https://…" }，url 可省；地址会在设置页里点开，所以收紧。"""
+    if not isinstance(author, dict) or not str(author.get("name", "")).strip():
+        return ['author 写成 { name = "名字", url = "https://主页" }，url 可省']
+    extra = set(author) - {"name", "url"}
+    if extra:
+        return [f"author 只认 name 与 url，多了 {sorted(extra)}"]
+    url = author.get("url")
+    if url is None:
+        return []
+    parts = urllib.parse.urlsplit(str(url))
+    host = parts.hostname or ""
+    if parts.scheme != "https" or not host:
+        return [f"author.url {url!r} 要写 https 地址"]
+    if "@" in parts.netloc:
+        return [f"author.url {url!r} 不能带用户名（@）"]
+    try:
+        ipaddress.ip_address(host)
+        return [f"author.url {url!r} 要写域名，不写 IP"]
+    except ValueError:
+        pass
+    if "." not in host or any(label.startswith("xn--") for label in host.split(".")):
+        return [f"author.url {url!r} 的域名要是普通的 ASCII 域名（不收 xn-- 开头的国际化域名，防仿冒）"]
+    return []
+
+
 def check_meta(path: Path, meta: dict, section: str) -> list[str]:
     errors = []
-    need = ["id", "name", "kind", "version", "description", "authors", "license", "machine_generated"]
+    need = ["id", "name", "kind", "version", "description", "author", "license", "machine_generated"]
     for key in need:
         if key not in meta:
             errors.append(f"缺 {key}")
@@ -67,8 +95,12 @@ def check_meta(path: Path, meta: dict, section: str) -> list[str]:
         errors.append("释义表要写 language（学习语言的 ISO 639-1 代码，如 ja）")
     if not VERSION.match(str(meta["version"])):
         errors.append(f"version {meta['version']!r} 要写成 主.次.修订")
-    if not isinstance(meta["authors"], list) or not meta["authors"]:
-        errors.append("authors 要列出作者")
+    if "authors" in meta:
+        errors.append("authors 已改成 author（做这本的人或团队，一个）加 credits（上游与外部贡献的署名）")
+    errors.extend(check_author(meta["author"]))
+    credits = meta.get("credits", [])
+    if not isinstance(credits, list) or not all(isinstance(c, str) and c.strip() for c in credits):
+        errors.append("credits 写名字的列表")
     generated = meta["machine_generated"]
     if not (generated is False or (isinstance(generated, str) and generated.strip())):
         errors.append("machine_generated 写 false，或用一句话说明哪部分是机器生成的")

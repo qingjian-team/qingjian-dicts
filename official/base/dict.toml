@@ -1,9 +1,10 @@
 id = "base"
-name = "青简基础词库"
+name = "基础词库"
 kind = "base"
 version = "1.0.0"
 description = "随输入法安装的基础词库：规范汉字、现代汉语常用词、语料高频领域词、短语、品牌词、中英混杂词与从通用扩展词库挑进来的词（supplement.tsv），带语料词频。"
-authors = ["青简团队", "toolsfox", "luo jiyin", "YIMING LI"]
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["toolsfox", "luo jiyin", "YIMING LI"]
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 # 外部贡献者的条目是按 GPL 收进来的，单独标出；其余青简整理部分 CC BY-SA 4.0
 license = "MIT AND Unicode-3.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later"

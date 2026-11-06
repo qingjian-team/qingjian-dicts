@@ -47,7 +47,7 @@ def build_qj(directory: Path, meta: dict, stage: Path) -> Path:
     common = [
         "--name", meta["name"],
         "--license", meta["license"],
-        "--attribution", "、".join(meta["authors"]),
+        "--attribution", "、".join([meta["author"]["name"], *meta.get("credits", [])]),
         "--source", meta.get("homepage", ""),
         "--data-version", meta["version"],
     ]

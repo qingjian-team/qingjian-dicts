@@ -64,7 +64,7 @@ def main(args: list[str]) -> int:
             "qj_format": released["qj_format"],
             "license": meta["license"],
             "description": meta["description"],
-            "authors": meta["authors"],
+            "author": meta["author"],
             "machine_generated": meta["machine_generated"] or None,
             "official": section == "official",
         })

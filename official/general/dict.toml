@@ -1,9 +1,9 @@
 id = "general"
-name = "青简通用扩展词库"
+name = "通用扩展词库"
 kind = "extra"
 version = "1.0.0"
 description = "青简从自有语料挖出的 2～30 字词约 155 万条，排在基础词库之后；仍在持续清洗，部分词形和读音待审核。"
-authors = ["青简团队"]
+author = { name = "青简", url = "https://qingjian.app" }
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "CC-BY-SA-4.0"
 machine_generated = "词形、读音与权重由机器从语料挖掘和标注，大部分未经人工逐条审核"

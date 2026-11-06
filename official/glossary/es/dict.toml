@@ -1,10 +1,11 @@
 id = "glossary-es"
-name = "青简释义表·西班牙语"
+name = "西班牙语释义表"
 kind = "glossary"
 language = "es"
 version = "1.0.0"
 description = "中文词的西班牙语释义，显示在候选词右侧。"
-authors = ["Tofuzhu"]
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["Tofuzhu"]
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "GPL-3.0-or-later"
 machine_generated = "机器翻译（Azure Translator），未经人工校对"
