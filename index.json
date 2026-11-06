@@ -5,6 +5,7 @@
       "id": "domain-animals",
       "name": "动物词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-animals-v1.0.0",
       "bytes": 378137,
@@ -22,6 +23,7 @@
       "id": "domain-automotive",
       "name": "汽车词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-automotive-v1.0.0",
       "bytes": 38940,
@@ -39,6 +41,7 @@
       "id": "domain-finance",
       "name": "财经词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-finance-v1.0.0",
       "bytes": 49507,
@@ -56,6 +59,7 @@
       "id": "domain-food",
       "name": "饮食词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-food-v1.0.0",
       "bytes": 162942,
@@ -73,6 +77,7 @@
       "id": "domain-historical-figures",
       "name": "历史人物词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-historical-figures-v1.0.0",
       "bytes": 187711,
@@ -90,6 +95,7 @@
       "id": "domain-idioms",
       "name": "成语词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-idioms-v1.0.0",
       "bytes": 86296,
@@ -107,6 +113,7 @@
       "id": "domain-it-computing",
       "name": "IT 与计算机词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-it-computing-v1.0.0",
       "bytes": 215719,
@@ -124,6 +131,7 @@
       "id": "domain-law",
       "name": "法律词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-law-v1.0.0",
       "bytes": 170776,
@@ -141,6 +149,7 @@
       "id": "domain-medicine",
       "name": "医学词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-medicine-v1.0.0",
       "bytes": 327577,
@@ -158,6 +167,7 @@
       "id": "domain-places",
       "name": "地名词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-places-v1.0.0",
       "bytes": 696661,
@@ -175,6 +185,7 @@
       "id": "domain-poetry-lines",
       "name": "诗词名句词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "domain-poetry-lines-v1.0.0",
       "bytes": 370747,
@@ -192,6 +203,7 @@
       "id": "general",
       "name": "通用扩展词库",
       "kind": "extra",
+      "language": "zh",
       "version": "1.0.0",
       "tag": "general-v1.0.0",
       "bytes": 27241538,
@@ -293,6 +305,78 @@
         "url": "https://qingjian.app"
       },
       "machine_generated": "LLM 生成，约 170 条人工改写",
+      "official": true
+    }
+  ],
+  "bundled": [
+    {
+      "id": "base",
+      "name": "基础词库",
+      "kind": "base",
+      "language": "zh",
+      "version": "1.0.0",
+      "tag": "base-v1.0.0",
+      "bytes": 5888565,
+      "qj_format": 1,
+      "license": "MIT AND Unicode-3.0 AND CC-BY-SA-4.0 AND GPL-3.0-or-later",
+      "description": "随输入法安装的基础词库：规范汉字、现代汉语常用词、语料高频领域词、短语、品牌词、中英混杂词与从通用扩展词库挑进来的词（supplement.tsv），带语料词频。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": "部分：多音字词读音由 LLM 标注并对照 Unihan 校验",
+      "official": true
+    },
+    {
+      "id": "english",
+      "name": "英文词表",
+      "kind": "wordlist",
+      "language": "en",
+      "version": "1.0.0",
+      "tag": "english-v1.0.0",
+      "bytes": 662395,
+      "license": "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later",
+      "description": "中英混输与英文模式用的英文词表，词频取 wordfreq。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": null,
+      "official": true
+    },
+    {
+      "id": "glossary-en",
+      "name": "英语释义表",
+      "kind": "glossary",
+      "language": "en",
+      "version": "1.0.0",
+      "tag": "glossary-en-v1.0.0",
+      "bytes": 5678168,
+      "qj_format": 1,
+      "license": "CC-BY-SA-4.0",
+      "description": "中文词的英语释义，显示在候选词右侧。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": "LLM 生成（DeepSeek）",
+      "official": true
+    },
+    {
+      "id": "vietnamese",
+      "name": "越南语词表",
+      "kind": "wordlist",
+      "language": "vi",
+      "version": "1.0.0",
+      "tag": "vietnamese-v1.0.0",
+      "bytes": 1514943,
+      "license": "GPL-3.0-or-later",
+      "description": "越南语输入法按前缀补全用的越南语词，约 8.9 万条，附越南语到中文的对照。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": "由越南语释义表（LLM 生成）反转派生，未经人工审核",
       "official": true
     }
   ]
