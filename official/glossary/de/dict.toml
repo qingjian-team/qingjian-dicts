@@ -4,8 +4,7 @@ kind = "glossary"
 language = "de"
 version = "1.0.0"
 description = "中文词的德语释义，显示在候选词右侧。"
-author = { name = "青简", url = "https://qingjian.app" }
-credits = ["Haoyu Xi"]
+author = { name = "Haoyu Xi", url = "https://github.com/ROM4n2" }
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "GPL-3.0-or-later"
 machine_generated = "LLM 生成（DeepSeek），名词冠词对照 Wiktionary 校验"
