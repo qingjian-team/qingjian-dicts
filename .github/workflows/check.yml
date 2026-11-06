@@ -1,4 +1,4 @@
-# 每次推送与 PR 都检查：dict.toml 与数据文件（tools/check.py），以及构建产物、超大文件没进仓库（同 .githooks/pre-commit，贡献者不一定启用了钩子）。
+# 每次推送与 PR 都检查：dict.toml 与数据文件（tools/check.py；PR 另查改了数据的词库升没升版本），以及构建产物、超大文件没进仓库（同 .githooks/pre-commit，贡献者不一定启用了钩子）。
 name: check
 
 on:
@@ -15,9 +15,17 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
 
       - name: 词库检查
+        if: github.event_name != 'pull_request'
         run: python3 tools/check.py
+
+      - name: 词库检查与版本号
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: python3 tools/check.py --since "origin/$BASE_REF"
 
       - name: 构建产物与超大文件
         run: |

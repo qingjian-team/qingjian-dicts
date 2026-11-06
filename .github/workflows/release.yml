@@ -1,0 +1,103 @@
+# 合进 main 就发版：dict.toml 的版本还没有 Release 的词库（标签 `<id>-v<版本>`），逐本打包、建 Release，最后更新 index.json 提交回 main。
+name: release
+
+on:
+  push:
+    branches: [main]
+    paths: ['official/**', 'community/**', 'tools/**', '.github/workflows/release.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 一次只跑一个；排队中的被新的顶掉也没关系，新的那次会把还没发的一起发
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  # 打包用的 dict-convert 钉在输入法仓库的固定提交上，换打包器要改这里（.qjz 在 feat/dicts-repo，合进主仓库 main 后改指主仓库）
+  IME_REPO: yenharvey/qingjian
+  IME_REF: f98c11abeed7e3f06e7461c1641969794dfee532
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: 要发的版本
+        id: pending
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/release.py --list
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.pending.outputs.tags != ''
+        with:
+          repository: ${{ env.IME_REPO }}
+          ref: ${{ env.IME_REF }}
+          path: ime
+          persist-credentials: false
+
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
+        if: steps.pending.outputs.tags != ''
+        with:
+          toolchain: 1.96.0
+
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        if: steps.pending.outputs.tags != ''
+        with:
+          workspaces: ime -> target
+
+      - name: 编 dict-convert
+        if: steps.pending.outputs.tags != ''
+        run: cargo build --release --locked -p qingjian-dict-convert --manifest-path ime/Cargo.toml
+
+      - name: 检查与打包
+        if: steps.pending.outputs.tags != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QINGJIAN_DICT_CONVERT: ime/target/release/qingjian-dict-convert
+        run: |
+          python3 tools/check.py
+          python3 tools/release.py
+
+      - name: 建 Release
+        if: steps.pending.outputs.tags != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAGS: ${{ steps.pending.outputs.tags }}
+        run: |
+          for tag in $TAGS; do
+            assets=()
+            for name in $(python3 -c 'import json,sys; print(" ".join(p["name"] for p in json.load(open(sys.argv[1]))["parts"]))' "dist/$tag/manifest.json"); do
+              assets+=("dist/$tag/$name")
+            done
+            gh release create "$tag" --target "$GITHUB_SHA" --latest=false \
+              --title "$(cat "dist/$tag.title")" --notes-file "dist/$tag.md" \
+              "${assets[@]}" "dist/$tag/manifest.json"
+          done
+
+      # 发版这段时间 main 上可能又有了新提交：每次都从最新的 main 重新生成，推不上就等一会儿再来
+      - name: 更新 index.json
+        if: steps.pending.outputs.tags != ''
+        env:
+          TAGS: ${{ steps.pending.outputs.tags }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch -q origin main
+            git checkout -q -B main origin/main
+            python3 tools/index.py
+            if git diff --quiet -- index.json; then
+              exit 0
+            fi
+            git commit -q -m "chore: index.json 收录 ${TAGS// /、}" -- index.json
+            if git push -q origin main; then
+              exit 0
+            fi
+            sleep 10
+          done
+          exit 1
