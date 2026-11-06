@@ -1,0 +1,14 @@
+id = "general"
+name = "通用扩展词库"
+kind = "extra"
+language = "zh"
+version = "1.0.0"
+description = "青简从自有语料挖出的 2～30 字词约 155 万条，排在基础词库之后；仍在持续清洗，部分词形和读音待审核。"
+author = { name = "青简", url = "https://qingjian.app" }
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "CC-BY-SA-4.0"
+machine_generated = "词形、读音与权重由机器从语料挖掘和标注，大部分未经人工逐条审核"
+bundled = false
+
+# 按拼音首字母拆开（单个文件不到 6MB），打包时按码点归并回一份
+files = ["words/a.tsv", "words/b.tsv", "words/c.tsv", "words/d.tsv", "words/e.tsv", "words/f.tsv", "words/g.tsv", "words/h.tsv", "words/j.tsv", "words/k.tsv", "words/l.tsv", "words/m.tsv", "words/n.tsv", "words/o.tsv", "words/p.tsv", "words/q.tsv", "words/r.tsv", "words/s.tsv", "words/t.tsv", "words/w.tsv", "words/x.tsv", "words/y.tsv", "words/z.tsv"]

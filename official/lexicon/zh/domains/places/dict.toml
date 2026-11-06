@@ -1,0 +1,13 @@
+id = "domain-places"
+name = "地名词库"
+kind = "extra"
+language = "zh"
+version = "1.0.0"
+description = "城市、区县、街道与学校等地名，约 4 万条。"
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["清华大学自然语言处理实验室（THUOCL）"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "MIT AND CC-BY-SA-4.0"
+machine_generated = "部分：多音字词读音由 LLM 标注"
+bundled = false
+files = ["words.tsv"]

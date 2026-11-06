@@ -9,9 +9,12 @@
 
 | 目录 | 内容 |
 | --- | --- |
-| `official/base` | 基础词库，随输入法安装 |
-| `official/english` | 英文词表，随输入法安装 |
-| `official/domains/<领域>` | 11 本领域词库（医学、法律、地名……），在设置页「词库」里按需下载 |
+| `official/lexicon/<语言>` | 打字用的词库，每种输入语言一个目录 |
+| `official/lexicon/zh/base` | 中文基础词库，随输入法安装 |
+| `official/lexicon/zh/general` | 通用扩展词库，按需下载 |
+| `official/lexicon/zh/domains/<领域>` | 11 本领域词库（医学、法律、地名……），按需下载 |
+| `official/lexicon/en` | 英文词表，随输入法安装 |
+| `official/lexicon/vi` | 越南语词表与越南语→中文对照，随输入法安装 |
 | `official/glossary/<语言>` | 候选词右侧的释义表；英语随输入法安装，其余按需下载 |
 | `official/upstream` | 上面几本的上游原始数据与许可原文 |
 | `community/<id>` | 第三方词库，每本一个目录，带自己的许可与说明 |
@@ -24,8 +27,9 @@
 - **在输入法里下载**：设置页「词库」→「下载」，列表从本仓库实时取，Gitee 与 GitHub 哪边快用哪边。
 - **手动导入**：到 Releases 下载 `.qjz`，在设置页「词库」→「导入」选它。
 
-每本词库单独发 Release，标签是 `<id>-v主.次.修订`（如 `domain-medicine-v1.0.0`），附件是 `<id>.qjz` 与 `manifest.json`。
-`.qjz` 是压缩过的 `.qj`，导入时输入法会解开并核对校验值。另有包含全部官方词库的完整包，给离线安装与发行版打包用。
+每本词库单独发 Release，标签是 `<id>-v主.次.修订`（如 `domain-medicine-v1.0.0`），附件是 `<id>.qjz`（词表是 `<id>.tar.gz`）与 `manifest.json`。
+不用手动发：`dict.toml` 的 `version` 升了的改动合进 main，CI 就打包发这个版本，再更新 `index.json`。随包的几本也发，输入法打包时按 `index.json` 的 `bundled` 取最新版。
+`.qjz` 是压缩过的 `.qj`，导入时输入法会解开并核对校验值。
 
 ## 许可
 

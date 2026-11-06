@@ -2,7 +2,8 @@
 """检查每本词库的 dict.toml 与数据文件：字段齐全、id 不重复、许可在白名单里、文本格式对。
 
     python3 tools/check.py            # 全部
-    python3 tools/check.py official/domains/medicine
+    python3 tools/check.py official/lexicon/zh/domains/medicine
+    python3 tools/check.py --since origin/main   # 另查：数据或 dict.toml 改了的词库 version 有没有升（PR 的 CI 这样跑）
 
 字段含义见 CONTRIBUTING.md「dict.toml」。CI 与 pre-commit 都跑它，有一条不过就非零退出。
 """
@@ -11,6 +12,7 @@ from __future__ import annotations
 
 import ipaddress
 import re
+import subprocess
 import sys
 import tomllib
 import urllib.parse
@@ -19,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SECTIONS = ("official", "community")
 
-KINDS = {"base", "extra", "glossary", "english"}
+KINDS = {"base", "extra", "glossary", "wordlist"}
 FORMATS = {"tsv", "rime", "words"}
 
 # 允许的 SPDX 许可：能随开源输入法再分发、允许商用与修改。NC / ND 一类不收，见 CONTRIBUTING.md「许可」。
@@ -40,6 +42,7 @@ LICENSES = {
     "GPL-3.0-or-later",
 }
 
+LANGUAGE = re.compile(r"^[a-z]{2,3}$")
 ID = re.compile(r"^[a-z0-9][a-z0-9-]{1,40}$")
 VERSION = re.compile(r"^\d+\.\d+\.\d+$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
@@ -80,7 +83,7 @@ def check_author(author) -> list[str]:
 
 def check_meta(path: Path, meta: dict, section: str) -> list[str]:
     errors = []
-    need = ["id", "name", "kind", "version", "description", "author", "license", "machine_generated"]
+    need = ["id", "name", "kind", "language", "version", "description", "author", "license", "machine_generated"]
     for key in need:
         if key not in meta:
             errors.append(f"缺 {key}")
@@ -91,8 +94,13 @@ def check_meta(path: Path, meta: dict, section: str) -> list[str]:
         errors.append(f"id {meta['id']!r} 只能用小写字母、数字和 -，2～41 个字符")
     if meta["kind"] not in KINDS:
         errors.append(f"kind {meta['kind']!r} 不认识，可选 {sorted(KINDS)}")
-    if meta["kind"] == "glossary" and not meta.get("language"):
-        errors.append("释义表要写 language（学习语言的 ISO 639-1 代码，如 ja）")
+    if not LANGUAGE.match(str(meta["language"])):
+        errors.append(f"language {meta['language']!r} 要写 ISO 639 代码（zh、en、ja……）")
+    rel = path.parent.relative_to(ROOT).parts
+    if rel[:2] in (("official", "lexicon"), ("official", "glossary")) and len(rel) > 2 and rel[2] != meta["language"]:
+        errors.append(f"放在 {'/'.join(rel[:3])} 下，language 却是 {meta['language']!r}")
+    if meta.get("glossary") and meta["kind"] != "wordlist":
+        errors.append("glossary（附带的中文对照）只有 wordlist 写")
     if not VERSION.match(str(meta["version"])):
         errors.append(f"version {meta['version']!r} 要写成 主.次.修订")
     if "authors" in meta:
@@ -171,7 +179,40 @@ def check_text(file: Path, kind: str, fmt: str) -> list[str]:
     return errors
 
 
+def git(*args: str) -> str:
+    return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout
+
+
+def check_versions(since: str) -> int:
+    """数据文件或 dict.toml 改了，version 就要和 since 那边不同：输入法按版本号判断有没有更新，CI 按版本号发版。"""
+    old = {}
+    for name in git("ls-tree", "-r", "--name-only", since).splitlines():
+        if name.endswith("/dict.toml") and name.split("/", 1)[0] in SECTIONS:
+            meta = tomllib.loads(git("show", f"{since}:{name}"))
+            old[meta["id"]] = meta["version"]
+    changed = set()
+    for line in git("diff", "--name-status", "-M", f"{since}...HEAD").splitlines():
+        status, *names = line.split("\t")
+        if status != "R100":  # 只挪了位置、内容没变的不算改
+            changed.add(names[-1])
+    failed = 0
+    for path in (p for s in SECTIONS for p in sorted((ROOT / s).rglob("dict.toml"))):
+        meta = tomllib.loads(path.read_text("utf-8"))
+        if meta["id"] not in old:
+            continue
+        directory = path.parent.relative_to(ROOT).as_posix()
+        packed = ["dict.toml", *(meta.get("files") or []), *([meta["glossary"]] if meta.get("glossary") else [])]
+        touched = [name for name in packed if f"{directory}/{name}" in changed]
+        if touched and meta["version"] == old[meta["id"]]:
+            print(f"{directory}: 改了 {'、'.join(touched)}，version 还是 {meta['version']}，要升一号")
+            failed += 1
+    return failed
+
+
 def main(args: list[str]) -> int:
+    since = None
+    if args[:1] == ["--since"] and len(args) > 1:
+        since, args = args[1], args[2:]
     if args:
         tomls = [ROOT / a / "dict.toml" for a in args]
     else:
@@ -204,10 +245,18 @@ def main(args: list[str]) -> int:
                 errors.append(f"files 里的 {name} 不存在")
             else:
                 errors += check_text(file, meta.get("kind", ""), meta.get("format", "tsv"))
+        if meta.get("glossary"):
+            file = path.parent / meta["glossary"]
+            if not file.is_file():
+                errors.append(f"glossary 的 {meta['glossary']} 不存在")
+            else:
+                errors += check_text(file, "glossary", "tsv")
         for error in errors:
             print(f"{rel.parent}: {error}")
         failed += bool(errors)
     print(f"查了 {len(tomls)} 本，{failed} 本有问题" if failed else f"查了 {len(tomls)} 本，都没问题")
+    if since is not None and not failed:
+        failed = check_versions(since)
     return 1 if failed else 0
 
 

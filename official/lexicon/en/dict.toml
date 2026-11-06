@@ -1,0 +1,14 @@
+id = "english"
+name = "英文词表"
+kind = "wordlist"
+language = "en"
+version = "1.0.0"
+description = "中英混输与英文模式用的英文词表，词频取 wordfreq。"
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["YIMING LI"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
+machine_generated = false
+bundled = true
+# inputs/frequency.tsv 是生成 english.tsv 时并进去的词频，已经在 english.tsv 里，不打包
+files = ["english.tsv"]

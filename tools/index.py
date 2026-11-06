@@ -5,7 +5,8 @@
 
 按 dist/*/manifest.json 更新或加上对应的词库（大小、格式版本），其余字段取各本 dict.toml；
 dict.toml 已经删掉的从清单里去掉，dist 里没有的保留上次的记录（没重打的词库不用每次都打）。
-随包的（bundled = true）不列：它们跟着输入法装。官方的排在第三方前面。
+`dicts` 是设置页下载列表读的；随包的（bundled = true）另列在 `bundled`，给输入法打包脚本按标签取最新版，设置页不读。
+官方的排在第三方前面。
 """
 
 from __future__ import annotations
@@ -35,16 +36,15 @@ def dict_tomls() -> dict[str, tuple[str, dict]]:
 def main(args: list[str]) -> int:
     old = {}
     if INDEX.is_file():
-        old = {entry["id"]: entry for entry in json.loads(INDEX.read_text("utf-8"))["dicts"]}
+        previous_index = json.loads(INDEX.read_text("utf-8"))
+        old = {entry["id"]: entry for entry in [*previous_index["dicts"], *previous_index.get("bundled", [])]}
     manifests = {}
     for path in sorted((ROOT / "dist").glob("*/manifest.json")):
         manifest = json.loads(path.read_text("utf-8"))
         manifests[manifest["dict"]] = manifest
 
-    entries = []
+    entries, bundled = [], []
     for dict_id, (section, meta) in dict_tomls().items():
-        if meta.get("bundled"):
-            continue
         manifest = manifests.get(dict_id)
         previous = old.get(dict_id)
         if manifest is None and previous is None:
@@ -53,7 +53,7 @@ def main(args: list[str]) -> int:
             print(f"{dict_id}: dist 里是 {manifest['version']}，dict.toml 是 {meta['version']}，先重新打包", file=sys.stderr)
             return 1
         released = manifest or previous
-        entries.append({
+        (bundled if meta.get("bundled") else entries).append({
             "id": dict_id,
             "name": meta["name"],
             "kind": meta["kind"],
@@ -61,7 +61,7 @@ def main(args: list[str]) -> int:
             "version": released["version"],
             "tag": released["tag"],
             "bytes": manifest["archive"]["bytes"] if manifest else previous["bytes"],
-            "qj_format": released["qj_format"],
+            **({"qj_format": released["qj_format"]} if "qj_format" in released else {}),
             "license": meta["license"],
             "description": meta["description"],
             "author": meta["author"],
@@ -69,8 +69,9 @@ def main(args: list[str]) -> int:
             "official": section == "official",
         })
     entries.sort(key=lambda entry: (not entry["official"], entry["kind"] != "extra", entry["id"]))
-    INDEX.write_text(json.dumps({"format": FORMAT, "dicts": entries}, ensure_ascii=False, indent=2) + "\n", "utf-8")
-    print(f"index.json：{len(entries)} 本")
+    bundled.sort(key=lambda entry: entry["id"])
+    INDEX.write_text(json.dumps({"format": FORMAT, "dicts": entries, "bundled": bundled}, ensure_ascii=False, indent=2) + "\n", "utf-8")
+    print(f"index.json：可下载 {len(entries)} 本，随包 {len(bundled)} 本")
     return 0
 
 

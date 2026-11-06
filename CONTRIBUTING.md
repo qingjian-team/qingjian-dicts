@@ -10,9 +10,9 @@
 ```toml
 id = "domain-medicine"        # 小写字母、数字、-；全仓库唯一，也是 Release 标签的前缀
 name = "医学词库"
-kind = "extra"                # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；english：英文词表
-# language = "ja"             # 只有释义表写：学习语言的 ISO 639-1 代码
-version = "1.0.0"             # 主.次.修订；数据有变就升，发 Release 时用
+kind = "extra"                # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；wordlist：拼音以外的输入语言用的词表（英文、越南语）
+language = "zh"               # ISO 639 代码：词库写输入语言，释义表写释义的语言；official/ 下要和所在的语言目录一致
+version = "1.0.0"             # 主.次.修订；数据文件或 dict.toml 改了就升（PR 的检查会拦），合进 main 后自动发这个版本
 description = "疾病、症状、药物与检查名称，约 1.6 万条。"  # 一句话说清收了什么、适合谁
 author = { name = "青简", url = "https://qingjian.app" }  # 做这本词库的人或团队，只写一个；设置页显示它，点名字打开 url（可省，只收 https 域名）
 credits = ["清华大学自然语言处理实验室（THUOCL）"]  # 许可要求署名的上游与贡献者，写进 .qj 元数据，设置页不列；没有可省
@@ -20,10 +20,11 @@ homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "MIT AND CC-BY-SA-4.0"  # SPDX 表达式，几份来源用 AND 连起来
 machine_generated = "部分：多音字词读音由 LLM 标注"  # 或 false
 format = "tsv"                # tsv（缺省）/ rime（.dict.yaml）/ words（一行一个词）
-bundled = false               # 随输入法安装的写 true（只有官方的基础词库、英文词表、英语释义表）；第三方不能随包
+bundled = false               # 随输入法安装的写 true（只有官方的基础词库、英文词表、越南语词表、英语释义表）；第三方不能随包
 
 # 数据放在本目录，或者用下面的 [upstream]，二选一
 files = ["words.tsv"]
+# glossary = "chinese.tsv"    # 只有 wordlist 写：附带的「词\t中文…」对照，显示在候选旁边
 
 # 第三方词库另外要写：
 # maintainers = ["github-login"]   # 负责跟进上游更新的人
@@ -49,7 +50,7 @@ files = ["words.tsv"]
 - `README.md`：来源、怎么生成的、和上游有什么不同、已知问题
 
 数据小、或上游已经不维护的，直接放进目录（`files`）；数据大、上游还在更新的，用 `[upstream]` 指向固定提交，不在本仓库存一份。
-单个文件不能超过 50MB：大的按拼音首字母之类的规则拆成几个文件，列在 `files` 里（见 `official/general`），或者用 `[upstream]`。
+单个文件不能超过 50MB：大的按拼音首字母之类的规则拆成几个文件，列在 `files` 里（见 `official/lexicon/zh/general`），或者用 `[upstream]`。
 
 `kind = "base"` 的完整词库，用户可以在输入法里拿它替换青简基础词库；输入法的排序是按青简自己的语料调的，换了词库排序效果由词库自己负责。
 
