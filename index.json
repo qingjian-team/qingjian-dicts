@@ -92,24 +92,6 @@
       "official": true
     },
     {
-      "id": "domain-idioms",
-      "name": "成语词库",
-      "kind": "extra",
-      "language": "zh",
-      "version": "1.0.0",
-      "tag": "domain-idioms-v1.0.0",
-      "bytes": 86296,
-      "qj_format": 1,
-      "license": "MIT AND CC-BY-SA-4.0",
-      "description": "成语与常用俗语，约 3700 条。",
-      "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
-      },
-      "machine_generated": "部分：多音字词读音由 LLM 标注",
-      "official": true
-    },
-    {
       "id": "domain-it-computing",
       "name": "IT 与计算机词库",
       "kind": "extra",
@@ -288,24 +270,6 @@
       },
       "machine_generated": "LLM 生成（gpt-5.5）",
       "official": true
-    },
-    {
-      "id": "glossary-zh",
-      "name": "英汉释义表",
-      "kind": "glossary",
-      "language": "zh",
-      "version": "1.0.0",
-      "tag": "glossary-zh-v1.0.0",
-      "bytes": 959801,
-      "qj_format": 1,
-      "license": "CC-BY-SA-4.0",
-      "description": "英文词的中文释义，显示在候选词右侧。",
-      "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
-      },
-      "machine_generated": "LLM 生成，约 170 条人工改写",
-      "official": true
     }
   ],
   "bundled": [
@@ -325,6 +289,24 @@
         "url": "https://qingjian.app"
       },
       "machine_generated": "部分：多音字词读音由 LLM 标注并对照 Unihan 校验",
+      "official": true
+    },
+    {
+      "id": "domain-idioms",
+      "name": "成语词库",
+      "kind": "extra",
+      "language": "zh",
+      "version": "1.0.0",
+      "tag": "domain-idioms-v1.0.0",
+      "bytes": 86296,
+      "qj_format": 1,
+      "license": "MIT AND CC-BY-SA-4.0",
+      "description": "成语与常用俗语，约 3700 条。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": "部分：多音字词读音由 LLM 标注",
       "official": true
     },
     {
@@ -361,6 +343,24 @@
         "url": "https://qingjian.app"
       },
       "machine_generated": "LLM 生成（DeepSeek）",
+      "official": true
+    },
+    {
+      "id": "glossary-zh",
+      "name": "英汉释义表",
+      "kind": "glossary",
+      "language": "zh",
+      "version": "1.0.0",
+      "tag": "glossary-zh-v1.0.0",
+      "bytes": 959801,
+      "qj_format": 1,
+      "license": "CC-BY-SA-4.0",
+      "description": "英文词的中文释义，显示在候选词右侧。",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": "LLM 生成，约 170 条人工改写",
       "official": true
     },
     {

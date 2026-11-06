@@ -8,5 +8,5 @@ author = { name = "青简", url = "https://qingjian.app" }
 homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "CC-BY-SA-4.0"
 machine_generated = "LLM 生成，约 170 条人工改写"
-bundled = false
+bundled = true
 files = ["glossary.tsv"]

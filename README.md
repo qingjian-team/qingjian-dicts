@@ -28,7 +28,7 @@
 - **手动导入**：到 Releases 下载 `.qjz`，在设置页「词库」→「导入」选它。
 
 每本词库单独发 Release，标签是 `<id>-v主.次.修订`（如 `domain-medicine-v1.0.0`），附件是 `<id>.qjz` 与 `manifest.json`。
-不用手动发：`dict.toml` 的 `version` 升了的改动合进 main，CI 就打包发这个版本，再更新 `index.json`。随包的几本也发，输入法打包时按 `index.json` 的 `bundled` 取最新版。
+不用手动发：`dict.toml` 的 `version` 升了的改动合进 main，CI 就打包发这个版本，再更新 `index.json`。随包的几本也发，输入法仓库的 `tools/release/dicts.lock` 按 `index.json` 的 `bundled` 钉住版本，打包时按它取。
 `.qjz` 是压缩过的 `.qj`，导入时输入法会解开并核对校验值。
 
 ## 许可

@@ -5,7 +5,7 @@
 
 按 dist/*/manifest.json 更新或加上对应的词库（大小、格式版本），其余字段取各本 dict.toml；
 dict.toml 已经删掉的从清单里去掉，dist 里没有的保留上次的记录（没重打的词库不用每次都打）。
-`dicts` 是设置页下载列表读的；随包的（bundled = true）另列在 `bundled`，给输入法打包脚本按标签取最新版，设置页不读。
+`dicts` 是设置页下载列表读的；随包的（bundled = true）另列在 `bundled`，输入法仓库的 dicts-fetch.py --update 按它钉版本，设置页不读。
 官方的排在第三方前面。
 """
 
