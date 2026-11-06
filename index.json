@@ -224,13 +224,13 @@
       "language": "de",
       "version": "1.0.0",
       "tag": "glossary-de-v1.0.0",
-      "bytes": 2357003,
+      "bytes": 2357006,
       "qj_format": 1,
       "license": "GPL-3.0-or-later",
       "description": "中文词的德语释义，显示在候选词右侧。",
       "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
+        "name": "Haoyu Xi",
+        "url": "https://github.com/ROM4n2"
       },
       "machine_generated": "LLM 生成（DeepSeek），名词冠词对照 Wiktionary 校验",
       "official": true
@@ -242,13 +242,13 @@
       "language": "es",
       "version": "1.0.0",
       "tag": "glossary-es-v1.0.0",
-      "bytes": 4559876,
+      "bytes": 4559884,
       "qj_format": 1,
       "license": "GPL-3.0-or-later",
       "description": "中文词的西班牙语释义，显示在候选词右侧。",
       "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
+        "name": "Tofuzhu",
+        "url": "https://github.com/Tofuzhu"
       },
       "machine_generated": "机器翻译（Azure Translator），未经人工校对",
       "official": true
@@ -278,13 +278,13 @@
       "language": "vi",
       "version": "1.0.0",
       "tag": "glossary-vi-v1.0.0",
-      "bytes": 2597079,
+      "bytes": 2597041,
       "qj_format": 1,
       "license": "GPL-3.0-or-later",
       "description": "中文词的越南语释义，显示在候选词右侧。",
       "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
+        "name": "Joelee",
+        "url": "https://github.com/youaodu"
       },
       "machine_generated": "LLM 生成（gpt-5.5）",
       "official": true
@@ -373,8 +373,8 @@
       "license": "GPL-3.0-or-later",
       "description": "越南语输入法按前缀补全用的越南语词，约 8.9 万条，附越南语到中文的对照。",
       "author": {
-        "name": "青简",
-        "url": "https://qingjian.app"
+        "name": "Joelee",
+        "url": "https://github.com/youaodu"
       },
       "machine_generated": "由越南语释义表（LLM 生成）反转派生，未经人工审核",
       "official": true
