@@ -9,4 +9,5 @@ homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "MIT AND CC-BY-SA-4.0 AND GPL-3.0-or-later"
 machine_generated = false
 bundled = true
-files = ["english.tsv", "english-frequency.tsv"]
+# inputs/frequency.tsv 是生成 english.tsv 时并进去的词频，已经在 english.tsv 里，不打包
+files = ["english.tsv"]
