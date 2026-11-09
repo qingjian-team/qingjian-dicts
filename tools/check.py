@@ -187,6 +187,36 @@ def check_text(file: Path, kind: str, fmt: str) -> list[str]:
     return errors
 
 
+# 基础词库 inputs/ 里重新生成 words.tsv 时要 --extra-words 并入的五份（BUILD.md 第 4 步）；general-subset.tsv 另有挑选规则，不在其列
+BASE = ROOT / "official/lexicon/zh/base"
+EXTRA_WORDS = ("mined.tsv", "phrases.tsv", "brands.tsv", "manual.tsv", "mixed.tsv")
+
+
+def first_column(file: Path, need_count: bool = False) -> set[str]:
+    words = set()
+    for line in file.read_text("utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split("\t")
+        if need_count and (len(fields) < 3 or not fields[2].strip().isdigit()):
+            continue
+        words.add(fields[0].strip())
+    return words
+
+
+def check_base_inputs() -> list[str]:
+    """重新生成基础词库时少给一份 --extra-words，那批词会悄悄没了：inputs/ 的每个词都要在基础词库或领域词库里。"""
+    generated = first_column(BASE / "words.tsv") | first_column(BASE / "supplement.tsv")
+    for words in sorted((ROOT / "official/lexicon/zh/domains").glob("*/words.tsv")):
+        generated |= first_column(words)
+    errors = []
+    for name in EXTRA_WORDS:
+        missing = sorted(first_column(BASE / "inputs" / name, need_count=True) - generated)
+        if missing:
+            errors.append(f"inputs/{name} 里 {len(missing)} 个词不在 words.tsv 与领域词库里（重新生成时漏了 --extra-words？）：{missing[:10]}")
+    return errors
+
+
 def git(*args: str) -> str:
     return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout
 
@@ -256,6 +286,10 @@ def main(args: list[str]) -> int:
         for error in errors:
             print(f"{rel.parent}: {error}")
         failed += bool(errors)
+    if BASE / "dict.toml" in tomls:
+        for error in check_base_inputs():
+            print(f"{BASE.relative_to(ROOT)}: {error}")
+            failed += 1
     print(f"查了 {len(tomls)} 本，{failed} 本有问题" if failed else f"查了 {len(tomls)} 本，都没问题")
     if since is not None and not failed:
         failed = check_versions(since)

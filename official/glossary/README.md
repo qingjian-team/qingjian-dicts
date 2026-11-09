@@ -14,16 +14,16 @@
 
 - `data/generated/gloss-llm.jsonl`：模型原始输出，一行一个词（词性、英文译词、日文译词与假名、越南文译词），可续跑：
   `cargo run --release -p qingjian-gloss-gen -- generate --words ../qingjian-dicts/official/lexicon/zh/base/words.tsv --min-count 1 --max-chars 8`
-- `glossary-en.tsv` / `glossary-ja.tsv` / `glossary-vi.tsv`：输入法加载的表，由 `... export --out-dir assets/glossary` 导出。
+- `glossary-en.tsv` / `glossary-ja.tsv` / `glossary-vi.tsv`：输入法加载的表，由 `... export` 导出到 `data/generated/`，再拷到本目录对应语言的 `glossary.tsv`。
 
 只补越南语时用 `--languages vi`，输出 JSONL 里只有 `vi` 字段，避免重新生成英语 / 日语：
 
 ```bash
 cargo run --release -p qingjian-gloss-gen -- generate --languages vi --words ../qingjian-dicts/official/lexicon/zh/base/words.tsv --min-count 1 --max-chars 8 --out data/generated/gloss-vi-llm.jsonl
-cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-vi-llm.jsonl --out-dir assets/glossary
+cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-vi-llm.jsonl --out-dir data/generated
 ```
 
-2026-09-05 对 `assets/lexicon/dict.tsv` 全量生成：23.9 万词（含旧语料词表的 3.8 万），
+2026-09-05 对基础词库（`../lexicon/zh/base/words.tsv`）全量生成：23.9 万词（含旧语料词表的 3.8 万），
 词库多字词 91% 有英文释义、98% 有日文释义。越南语字段是后续加入的，旧 JSONL 没有 `vi` 字段时需重跑 `generate` 或另行补齐后再导出。
 
 ## 德语（`glossary-de.tsv`）
@@ -33,7 +33,7 @@ cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss
 
 ```bash
 cargo run --release -p qingjian-gloss-gen -- generate --languages de --words ../qingjian-dicts/official/lexicon/zh/base/words.tsv --min-count 1 --max-chars 8 --model deepseek-flash --out data/generated/gloss-de-llm.jsonl
-cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-de-llm.jsonl --out-dir assets/glossary
+cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss-de-llm.jsonl --out-dir data/generated
 ```
 
 提示词要求名词译词带定冠词（`der` / `die` / `das`）且首字母大写、动词用不定式——冠词本身
@@ -43,7 +43,7 @@ cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss
 达到 98% 闸门才发布。以后换模型重跑若过不了闸门，可用 `export --strip-german-articles`
 导出剥掉冠词的兜底形态（名词仍保留大写与词性，从已有 JSONL 重新导出即可，不花 API 费用）。
 
-2026-10-10 对 `assets/lexicon/dict.tsv` 全量生成（`--min-count 1 --max-chars 8`，
+2026-10-10 对基础词库（`../lexicon/zh/base/words.tsv`）全量生成（`--min-count 1 --max-chars 8`，
 模型 deepseek-flash）：选出 92,119 个词，复用 2,000 词 pilot 的 1,998 条结果，新生成 89,749 条，
 372 个生僻词模型未返回而放弃，导出 91,747 条（占选中词 99.6%，规模与越南语表相当）。
 全量闸门结果：名词共 52,896 个，其中 11,338 个按语法本就无冠词（国名 / 地名 / 人名、
@@ -91,7 +91,7 @@ cargo run --release -p qingjian-gloss-gen -- export --input data/generated/gloss
 约 4.5 万词：
 
 ```
-cargo run --release -p qingjian-gloss-gen -- english --include assets/lexicon/05_english/05_tech/*.tsv
+cargo run --release -p qingjian-gloss-gen -- english --include ../qingjian-dicts/official/upstream/05_english/05_tech/*.tsv
 cargo run --release -p qingjian-gloss-gen -- export-english
 ```
 

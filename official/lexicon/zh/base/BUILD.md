@@ -17,7 +17,7 @@
 
 下面的命令都在输入法仓库（`ime/`，与本仓库并排放）里跑，工具是那边的 `qingjian-dict-convert` 与 `qingjian-gloss-gen`；
 `lexicon` 生成的 `dict.tsv` 就是这里的 `words.tsv`，已清洗子集的生成结果 `dict-cleaned.tsv` 就是 `supplement.tsv`。
-输入法仓库的工具缺省路径还指着它自己的 `assets/lexicon/`，改过来之前用下面写的路径参数。
+工具的缺省路径就指着本仓库（`../qingjian-dicts/official/...`），两个仓库并排放时不用另给路径参数。
 
 ## 上游数据的来历
 
@@ -32,7 +32,7 @@
 
 ```bash
 # lexicon 的各项输入缺省都并入：LLM 读音 data/generated/pinyin-llm.jsonl、语料词频 data/generated/lm-unigram.tsv、
-# inputs/ 的五份额外词（挖词 / 短语 / 品牌 / 领域 / 中英混杂；输入法仓库现在读的是它自己的 assets/lexicon 副本）、青简词库 data/lexicon/（仓库外的交付目录软链过来）。
+# inputs/ 的五份额外词（挖词 / 短语 / 品牌 / 人工补充 / 中英混杂，check.py 会查它们都并进了 words.tsv）、青简词库 data/lexicon/（仓库外的交付目录软链过来）。
 # 缺文件就报错停下，不悄悄少并；从头重建时还没生成的用 --no-pinyin / --no-frequency / --no-extra-words / --no-general 排除。
 # 1. 第一遍：写初版 dict.tsv，并列出要交给 LLM 定读音的词：没有拼音的领域词里含多音字的，以及常用词表里含多音字的
 #    （常用词表自带的拼音对多音字有错，如 重庆 zhong4'qing4，所以也要标；标注与原表不同时标注为主读音，原表读音降权保留）
