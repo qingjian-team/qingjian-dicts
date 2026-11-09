@@ -2,7 +2,7 @@ id = "english"
 name = "英文词表"
 kind = "wordlist"
 language = "en"
-version = "1.0.0"
+version = "1.0.1"
 description = "中英混输与英文模式用的英文词表，词频取 wordfreq。"
 author = { name = "青简", url = "https://qingjian.app" }
 credits = ["YIMING LI"]
