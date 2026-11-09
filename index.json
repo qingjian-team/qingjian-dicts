@@ -328,6 +328,24 @@
       "official": true
     },
     {
+      "id": "english-ipa",
+      "name": "英文音标表",
+      "kind": "pronunciation",
+      "language": "en",
+      "version": "1.0.0",
+      "tag": "english-ipa-v1.0.0",
+      "bytes": 1461598,
+      "qj_format": 1,
+      "license": "BSD-2-Clause",
+      "description": "英文候选旁显示的音标（General American），约 11.7 万词。",
+      "author": {
+        "name": "fenyoyo",
+        "url": "https://github.com/fenyoyo"
+      },
+      "machine_generated": "由 CMUdict 的 ARPAbet 读音按规则转成 IPA，未逐条人工核对",
+      "official": true
+    },
+    {
       "id": "glossary-en",
       "name": "英语释义表",
       "kind": "glossary",
