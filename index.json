@@ -416,6 +416,24 @@
       },
       "machine_generated": "由越南语释义表（LLM 生成）反转派生，未经人工审核",
       "official": true
+    },
+    {
+      "id": "wubi86",
+      "name": "五笔（86）",
+      "kind": "scheme",
+      "language": "zh",
+      "version": "1.0.0",
+      "tag": "wubi86-v1.0.0",
+      "bytes": 692921,
+      "qj_format": 1,
+      "license": "Apache-2.0",
+      "description": "86 版五笔，编码来自极点码表，词频按青简词库回填",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": null,
+      "official": true
     }
   ]
 }
