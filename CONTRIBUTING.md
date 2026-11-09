@@ -10,7 +10,7 @@
 ```toml
 id = "domain-medicine"        # 小写字母、数字、-；全仓库唯一，也是 Release 标签的前缀
 name = "医学词库"
-kind = "extra"                # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；wordlist：拼音以外的输入语言用的词表（英文、越南语）；pronunciation：音标表（只随包）
+kind = "extra"                # base：可以替换基础词库的完整词库；extra：附加词库；glossary：释义表；wordlist：拼音以外的输入语言用的词表（英文、越南语）；pronunciation：音标表（只随包）；scheme：形码方案的码表（只随包）
 language = "zh"               # ISO 639 代码：词库写输入语言，释义表写释义的语言（只给某种输入语言用的对照表写那种输入语言）；official/ 下要和所在的语言目录一致
 version = "1.0.0"             # 主.次.修订；数据文件或 dict.toml 改了就升（PR 的检查会拦），合进 main 后自动发这个版本
 description = "疾病、症状、药物与检查名称，约 1.6 万条。"  # 一句话说清收了什么、适合谁

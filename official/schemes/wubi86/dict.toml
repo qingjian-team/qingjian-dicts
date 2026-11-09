@@ -1,0 +1,14 @@
+id = "wubi86"
+name = "五笔（86）"
+kind = "scheme"
+language = "zh"
+version = "1.0.0"
+description = "86 版五笔，编码来自极点码表，词频按青简词库回填"
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["极点五笔（rime-wubi86-jidian）"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "Apache-2.0"
+machine_generated = false
+bundled = true
+# 码表：词\t编码\t词频；打包成 Kind::CodeTable 的 wubi86.qj，名字、作者、许可、版本、简介进文件头，输入法设置页显示
+files = ["table.tsv"]
