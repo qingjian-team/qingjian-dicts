@@ -1,0 +1,13 @@
+id = "english-ipa"
+name = "英文音标表"
+kind = "pronunciation"
+language = "en"
+version = "1.0.0"
+description = "英文候选旁显示的音标（General American），约 11.7 万词。"
+author = { name = "fenyoyo", url = "https://github.com/fenyoyo" }
+credits = ["CMU Pronouncing Dictionary（Carnegie Mellon University）"]
+homepage = "https://github.com/qingjian-team/qingjian-dicts"
+license = "BSD-2-Clause"
+machine_generated = "由 CMUdict 的 ARPAbet 读音按规则转成 IPA，未逐条人工核对"
+bundled = true
+files = ["english-ipa.tsv"]

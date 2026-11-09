@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SECTIONS = ("official", "community")
 
-KINDS = {"base", "extra", "glossary", "wordlist"}
+KINDS = {"base", "extra", "glossary", "wordlist", "pronunciation"}
 FORMATS = {"tsv", "rime", "words"}
 
 # 允许的 SPDX 许可：能随开源输入法再分发、允许商用与修改。NC / ND 一类不收，见 CONTRIBUTING.md「许可」。
@@ -99,6 +99,8 @@ def check_meta(path: Path, meta: dict, section: str) -> list[str]:
     rel = path.parent.relative_to(ROOT).parts
     if rel[:2] in (("official", "lexicon"), ("official", "glossary")) and len(rel) > 2 and rel[2] != meta["language"]:
         errors.append(f"放在 {'/'.join(rel[:3])} 下，language 却是 {meta['language']!r}")
+    if meta["kind"] == "pronunciation" and not meta.get("bundled"):
+        errors.append("音标表只随包（bundled = true），设置页的下载列表不列它")
     if "glossary" in meta:
         errors.append("glossary 字段已去掉：附带的对照表单独做一本 kind = \"glossary\" 的词库")
     if not VERSION.match(str(meta["version"])):
@@ -170,6 +172,9 @@ def check_text(file: Path, kind: str, fmt: str) -> list[str]:
             errors.append(f"{file.name}:{number} 只有词的表一行一个词，不带 Tab")
         elif fmt == "tsv" and kind == "glossary" and (len(fields) < 2 or not fields[1].strip()):
             errors.append(f"{file.name}:{number} 释义表要有「词\\t释义」")
+        elif fmt == "tsv" and kind == "pronunciation":
+            if len(fields) != 2 or not (fields[1].startswith("/") and fields[1].endswith("/") and len(fields[1]) > 2):
+                errors.append(f"{file.name}:{number} 音标表要写成「词\\t/音标/」")
         elif fmt == "tsv" and kind != "glossary":
             if len(fields) not in (2, 3) or not fields[-1].isdigit():
                 errors.append(f"{file.name}:{number} 要写成「词\\t拼音\\t词频」或「词\\t词频」，词频是整数")

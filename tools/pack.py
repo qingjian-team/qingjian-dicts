@@ -64,6 +64,9 @@ def build_qj(directory: Path, meta: dict, stage: Path) -> Path:
     elif kind == "wordlist":
         out = stage / f"{meta['id']}.qj"
         args = ["pack", "wordlist", "--input", inputs[0], "--output", str(out)]
+    elif kind == "pronunciation":
+        out = stage / f"{meta['id']}.qj"
+        args = ["pack", "pronunciations", "--input", inputs[0], "--output", str(out)]
     else:
         sys.exit(f"{directory}: kind = {kind} 不发 Release")
     subprocess.run([str(CONVERT), "--out-dir", str(stage), *args, *common], check=True)
