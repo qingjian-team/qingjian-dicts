@@ -20,7 +20,7 @@ homepage = "https://github.com/qingjian-team/qingjian-dicts"
 license = "MIT AND CC-BY-SA-4.0"  # SPDX 表达式，几份来源用 AND 连起来
 machine_generated = "部分：多音字词读音由 LLM 标注"  # 或 false
 format = "tsv"                # tsv（缺省）/ rime（.dict.yaml）/ words（一行一个词）
-bundled = false               # 随输入法安装的写 true（只有官方的基础词库、成语词库、英文词表、越南语词表与越南语→中文对照、英语与中文释义表）；第三方不能随包
+bundled = false               # 随输入法安装的写 true（只有官方的基础词库、通用扩展词库、成语词库、英文词表、越南语词表与越南语→中文对照、英语与中文释义表）；第三方不能随包
 
 # 数据放在本目录，或者用下面的 [upstream]，二选一
 files = ["words.tsv"]

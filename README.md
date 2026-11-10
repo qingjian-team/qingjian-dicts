@@ -11,7 +11,7 @@
 | --- | --- |
 | `official/lexicon/<语言>` | 打字用的词库，每种输入语言一个目录 |
 | `official/lexicon/zh/base` | 中文基础词库，随输入法安装 |
-| `official/lexicon/zh/general` | 通用扩展词库，按需下载 |
+| `official/lexicon/zh/general` | 通用扩展词库，随输入法安装 |
 | `official/lexicon/zh/domains/<领域>` | 11 本领域词库（医学、法律、地名……），按需下载 |
 | `official/lexicon/en` | 英文词表，随输入法安装 |
 | `official/lexicon/vi` | 越南语词表（`words`）与越南语→中文对照（`chinese`），随输入法安装 |
