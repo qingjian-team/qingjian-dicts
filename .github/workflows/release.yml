@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # 打包用的 dict-convert 钉在输入法仓库的固定提交上，换打包器要改这里（.qjz 在 feat/dicts-repo，合进主仓库 main 后改指主仓库）
-  IME_REPO: yenharvey/qingjian
+  # 打包用的 dict-convert 钉在输入法仓库的固定提交上，换打包器要改这里
+  IME_REPO: qingjian-team/qingjian
   IME_REF: bea1994201893fd9c4920d26084e61f0cf9d8993
 
 jobs:
