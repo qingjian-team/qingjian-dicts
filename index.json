@@ -382,6 +382,24 @@
       "official": true
     },
     {
+      "id": "stroke",
+      "name": "笔画",
+      "kind": "codes",
+      "language": "zh",
+      "version": "1.0.0",
+      "tag": "stroke-v1.0.0",
+      "bytes": 1060438,
+      "qj_format": 1,
+      "license": "OFL-1.1",
+      "description": "辅码用的笔画码表：单字取前 4 笔加末笔，词取每个字的首笔",
+      "author": {
+        "name": "青简",
+        "url": "https://qingjian.app"
+      },
+      "machine_generated": null,
+      "official": true
+    },
+    {
       "id": "vietnamese",
       "name": "越南语词表",
       "kind": "wordlist",
