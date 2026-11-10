@@ -16,6 +16,8 @@
 | `official/lexicon/en` | 英文词表，随输入法安装 |
 | `official/lexicon/vi` | 越南语词表（`words`）与越南语→中文对照（`chinese`），随输入法安装 |
 | `official/glossary/<语言>` | 候选词右侧的释义表；英语随输入法安装，其余按需下载 |
+| `official/schemes/<方案>` | 形码方案的码表（五笔 86），随输入法安装 |
+| `official/codes/<码表>` | 辅码码表（笔画），随输入法安装 |
 | `official/upstream` | 上面几本的上游原始数据与许可原文 |
 | `community/<id>` | 第三方词库，每本一个目录，带自己的许可与说明 |
 | `tools/check.py` | 检查 `dict.toml` 与数据格式，CI 与提交钩子都跑它 |

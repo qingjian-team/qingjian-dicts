@@ -1,0 +1,16 @@
+id = "stroke"
+name = "笔画"
+kind = "codes"
+language = "zh"
+version = "1.0.0"
+description = "辅码用的笔画码表：单字取前 4 笔加末笔，词取每个字的首笔"
+author = { name = "青简", url = "https://qingjian.app" }
+credits = ["CNS11643 全字庫筆順資料（數位發展部）"]
+homepage = "https://data.gov.tw/dataset/5961"
+license = "OFL-1.1"
+machine_generated = false
+bundled = true
+# 笔画表：字\t笔顺（1 横 2 竖 3 撇 5 折 n 点捺），由 official/upstream/stroke 的覆盖规则与 CNS 笔顺资料生成
+files = ["stroke.tsv"]
+# 词的编码按这本词库算，基础词库加了词要重打这本、升版本
+dictionary = "../../lexicon/zh/base/words.tsv"

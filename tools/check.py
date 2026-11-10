@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SECTIONS = ("official", "community")
 
-KINDS = {"base", "extra", "glossary", "wordlist", "pronunciation", "scheme"}
+KINDS = {"base", "extra", "glossary", "wordlist", "pronunciation", "scheme", "codes"}
 FORMATS = {"tsv", "rime", "words"}
 
 # 允许的 SPDX 许可：能随开源输入法再分发、允许商用与修改。NC / ND 一类不收，见 CONTRIBUTING.md「许可」。
@@ -33,6 +33,7 @@ LICENSES = {
     "BSD-2-Clause",
     "BSD-3-Clause",
     "Apache-2.0",
+    "OFL-1.1",
     "Unicode-3.0",
     "ODbL-1.0",
     "LGPL-3.0-only",
@@ -99,8 +100,10 @@ def check_meta(path: Path, meta: dict, section: str) -> list[str]:
     rel = path.parent.relative_to(ROOT).parts
     if rel[:2] in (("official", "lexicon"), ("official", "glossary")) and len(rel) > 2 and rel[2] != meta["language"]:
         errors.append(f"放在 {'/'.join(rel[:3])} 下，language 却是 {meta['language']!r}")
-    if meta["kind"] in ("pronunciation", "scheme") and not meta.get("bundled"):
-        errors.append("音标表与形码方案现在只随包（bundled = true），设置页的下载列表不列它们")
+    if meta["kind"] in ("pronunciation", "scheme", "codes") and not meta.get("bundled"):
+        errors.append("音标表、形码方案与辅码码表现在只随包（bundled = true），设置页的下载列表不列它们")
+    if meta["kind"] == "codes" and not (path.parent / str(meta.get("dictionary", ""))).is_file():
+        errors.append("辅码码表要写 dictionary：算词的编码用的词库（相对本目录的路径）")
     if "glossary" in meta:
         errors.append("glossary 字段已去掉：附带的对照表单独做一本 kind = \"glossary\" 的词库")
     if not VERSION.match(str(meta["version"])):
@@ -175,6 +178,9 @@ def check_text(file: Path, kind: str, fmt: str) -> list[str]:
         elif fmt == "tsv" and kind == "scheme":
             if len(fields) not in (2, 3) or not fields[1].isascii() or not fields[1].isalpha() or (len(fields) == 3 and not fields[2].isdigit()):
                 errors.append(f"{file.name}:{number} 码表要写成「词\\t编码\\t词频」，编码只用字母")
+        elif fmt == "tsv" and kind == "codes":
+            if len(fields) != 2 or len(fields[0]) != 1 or not fields[1] or set(fields[1]) - set("1235n"):
+                errors.append(f"{file.name}:{number} 笔画表要写成「字\\t笔顺」，笔顺只用 1 2 3 5 n")
         elif fmt == "tsv" and kind == "pronunciation":
             if len(fields) != 2 or not (fields[1].startswith("/") and fields[1].endswith("/") and len(fields[1]) > 2):
                 errors.append(f"{file.name}:{number} 音标表要写成「词\\t/音标/」")

@@ -67,6 +67,10 @@ def build_qj(directory: Path, meta: dict, stage: Path) -> Path:
     elif kind == "scheme":
         out = stage / f"{meta['id']}.qj"
         args = ["pack", "codetable", "--input", inputs[0], "--output", str(out), "--description", meta["description"]]
+    elif kind == "codes":
+        out = stage / f"{meta['id']}.qj"
+        dictionary = directory / meta["dictionary"]
+        args = ["pack", "codes", "--stroke", inputs[0], "--dict", str(dictionary), "--output", str(out)]
     elif kind == "pronunciation":
         out = stage / f"{meta['id']}.qj"
         args = ["pack", "pronunciations", "--input", inputs[0], "--output", str(out)]
