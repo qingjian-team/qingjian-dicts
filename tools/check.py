@@ -223,6 +223,31 @@ def check_base_inputs() -> list[str]:
     return errors
 
 
+GENERAL = ROOT / "official/lexicon/zh/general"
+TONES = re.compile(r"[1-5]")
+
+
+def entry_keys(file: Path) -> set[tuple[str, str]]:
+    """（词, 不计声调的读音）。"""
+    keys = set()
+    for line in file.read_text("utf-8").splitlines():
+        if line and not line.startswith("#"):
+            fields = line.split("	")
+            if len(fields) >= 2:
+                keys.add((fields[0], TONES.sub("", fields[1])))
+    return keys
+
+
+def check_general_overlap() -> list[str]:
+    """通用扩展词库整理时已经剔掉了基础词库有的同词同音（tools/general.py）；直接拷交付稿进来会带回几十万条重复、词频也没换算。"""
+    base = entry_keys(BASE / "words.tsv") | entry_keys(BASE / "supplement.tsv")
+    overlap = sorted(key for file in sorted((GENERAL / "words").glob("*.tsv")) for key in entry_keys(file) & base)
+    if not overlap:
+        return []
+    sample = "、".join(word for word, _ in overlap[:10])
+    return [f"{len(overlap)} 条和基础词库同词同音（{sample}……），交付稿要先经 tools/general.py 整理"]
+
+
 def git(*args: str) -> str:
     return subprocess.run(["git", *args], cwd=ROOT, check=True, capture_output=True, text=True).stdout
 
@@ -295,6 +320,10 @@ def main(args: list[str]) -> int:
     if BASE / "dict.toml" in tomls:
         for error in check_base_inputs():
             print(f"{BASE.relative_to(ROOT)}: {error}")
+            failed += 1
+    if BASE / "dict.toml" in tomls or GENERAL / "dict.toml" in tomls:
+        for error in check_general_overlap():
+            print(f"{GENERAL.relative_to(ROOT)}: {error}")
             failed += 1
     print(f"查了 {len(tomls)} 本，{failed} 本有问题" if failed else f"查了 {len(tomls)} 本，都没问题")
     if since is not None and not failed:
